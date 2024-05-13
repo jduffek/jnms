@@ -1,4 +1,4 @@
-# svc-disco.py
+# svc-disco1.py
 
 import os
 import socket
@@ -70,7 +70,8 @@ def port_scan(hosts, ports):
                 # Check if the port is open
                 if result == 0:
                     print(f"Port {port} is open on {host}")
-                    open_ports.append((host, port))  # Changed format here
+                    if (host, port) not in open_ports:
+                        open_ports.append((host, port))  # Changed format here
                 
                 # Close the socket
                 s.close()
@@ -103,28 +104,27 @@ def main():
     build_nodes_db()
 
     # Read hosts from the nodes.db file
-    hosts = []
+    existing_entries = set()
     with open("nodes.db", 'r') as db_file:
         for line in db_file:
-            parts = line.strip().split(":")
-            if len(parts) >= 1:
-                host = parts[0]
-                hosts.append(host)
+            existing_entries.add(line.strip().split(":")[0])  # Split by ':' and take the first part as host
 
     # Get user input for ports to scan
     ports = get_user_input()
 
     # Perform port scanning
-    open_ports = port_scan(hosts, ports)
+    open_ports = port_scan(existing_entries, ports)
 
     # Output port scanning results
     if open_ports:
         print("Port scanning results:")
-        for host, port in open_ports:
-            print(f"{host}:{port}")
-            # Update nodes.db with the open port
-            with open("nodes.db", 'a') as db_file:
-                db_file.write(f"{host}:{port}\n")
+        with open("nodes.db", 'r+') as db_file:
+            existing_entries = set(line.strip() for line in db_file)
+            for host, port in open_ports:
+                result = f"{host}:{port}"
+                print(result)
+                if result not in existing_entries:
+                    db_file.write(f"{result}\n")
     else:
         print("No open ports found.")
 
