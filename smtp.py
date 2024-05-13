@@ -4,11 +4,11 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-sender_email = "sender@gmail.com"
-receiver_email = "receiver@gmail.com"
+sender_email = "tx@gmail.com"
+receiver_email = "rx@gmail.com"
 smtp_server = "smtp.gmail.com"
 smtp_port = 587  # Port for STARTTLS
-password = "supersecureshithere"
+password = "gmail app pw/account pw"
 
 def send_email(subject, message):
     # Create a multipart message
@@ -28,8 +28,8 @@ def send_email(subject, message):
         server.sendmail(sender_email, receiver_email, text)
 
 if __name__ == "__main__":
-    subject = "[Alert] Node is down."
-    message = "Check yo shit!"
+    subject = "jnms email test"
+    message = "https://linktr.ee/joshuaheartsy0u"
 
     send_email(subject, message)
     print("Email sent successfully.")
