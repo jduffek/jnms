@@ -9,7 +9,7 @@
 # python3 snmp.py -m -i 30 -l qnap_monitor.log -of oids.txt
 #
 # this will use default and/or oid file specified in nodes.db config:
-# python3 snmp2.py -m -i 30 -l qnap_monitor.log
+# python3 snmp.py -m -i 30 -l qnap_monitor.log
 #
 # nodes.db file example:
 # 10.1.1.147:SNMP:string:qnap.txt
