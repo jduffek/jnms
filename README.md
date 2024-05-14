@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 joshd:jnms-pub joshduffek$ python3 jnms.py
 Would you like to input a network range(s)? (yes/file/no): file
 What is the name of the file?: foo.bar
