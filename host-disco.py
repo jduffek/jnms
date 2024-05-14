@@ -74,7 +74,7 @@ def main():
         print("Invalid choice.")
         return
 
-    filename = "host-disco_" + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".txt"
+    filename = "disco/host-disco_" + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".txt"
     with open(filename, 'w') as f:
         for host in discovered_hosts:
             f.write(host + '\n')

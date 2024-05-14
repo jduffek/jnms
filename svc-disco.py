@@ -1,4 +1,4 @@
-# svc-disco1.py
+# svc-disco.py
 
 import os
 import socket
@@ -19,7 +19,7 @@ def build_nodes_db():
         pass  # If nodes.db does not exist yet, ignore the error
 
     # Scan for all host-discoX files
-    host_disco_files = [file for file in os.listdir() if file.startswith("host-disco")]
+    host_disco_files = [file for file in os.listdir() if file.startswith("disco/host-disco")]
 
     # Parse host information from each host-disco file
     new_entries = set()
