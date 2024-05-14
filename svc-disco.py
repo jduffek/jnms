@@ -1,4 +1,6 @@
 # svc-disco.py
+# 
+# port scan and save info to nodes.db
 
 import os
 import socket

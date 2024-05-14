@@ -10,7 +10,7 @@ import sys
 from smtp import send_email, sender_email, receiver_email, smtp_server, smtp_port, password
 
 # Define constants
-BEEP_ENABLED = False  # Set to True to enable beep, False to disable
+BEEP_ENABLED = True  # Set to True to enable beep, False to disable
 SMTP_ENABLED = True  # Set to True to enable email alerts, False to disable
 SMS_ENABLED = False  # Set to True to enable SMS alerts, False to disable
 
