@@ -1,6 +1,9 @@
 joshd:jnms-pub joshduffek$ python3 jnms.py
+
 Would you like to input a network range(s)? (yes/file/no): file
+
 What is the name of the file?: foo.bar
+
 10.1.1.4 is alive
 10.1.1.1 is alive
 10.1.1.5 is alive
