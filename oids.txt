@@ -1,5 +1,0 @@
-#default OIDs to monitor on all SNMP hosts
-1.3.6.1.2.1.1.3.0  # sysUpTime
-1.3.6.1.2.1.25.1.1.0  # sysName
-1.3.6.1.4.1.2021.4.5.0  # memoryTotalSwap
-1.3.6.1.4.1.2021.4.6.0  # memoryAvailSwap
