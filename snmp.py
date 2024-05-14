@@ -9,12 +9,13 @@
 # python3 snmp.py -m -i 30 -l qnap_monitor.log -of oids.txt
 #
 # this will use default and/or oid file specified in nodes.db config:
-# python3 snmp.py -m -i 30 -l qnap_monitor.log
+# python3 snmpOF.py -m -i 30 -l qnap_monitor.log
 #
 # nodes.db file example:
 # 10.1.1.147:SNMP:string:qnap.txt
 #
 # and/else it will use oids.txt by default
+# oids can be in local dir or /oid sub.
 
 import datetime
 import time
@@ -68,12 +69,24 @@ def read_nodes_db(file_path):
 def read_oids(file_path):
     oids = []
     if file_path:
-        with open(file_path, 'r') as f:
-            for line in f:
-                line = line.strip()
-                if line and not line.startswith('#'):  # Ignore empty lines and comments
-                    oid = line.split()[0]  # Take the first part of the line, before any comment
-                    oids.append(oid)
+        # Check if the file exists in the current directory
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#'):  # Ignore empty lines and comments
+                        oid = line.split()[0]  # Take the first part of the line, before any comment
+                        oids.append(oid)
+        else:
+            # Check if the file exists in the /oid subdirectory
+            oid_sub_path = os.path.join('oid', file_path)
+            if os.path.exists(oid_sub_path):
+                with open(oid_sub_path, 'r') as f:
+                    for line in f:
+                        line = line.strip()
+                        if line and not line.startswith('#'):  # Ignore empty lines and comments
+                            oid = line.split()[0]  # Take the first part of the line, before any comment
+                            oids.append(oid)
     return oids
 
 def main():
@@ -87,12 +100,13 @@ def main():
     parser.add_argument('-m', dest='monitor', action='store_true', help='Monitor device using SNMP')
     parser.add_argument('-i', dest='interval', type=int, default=default_interval, help='Interval for SNMP monitoring in seconds')
     parser.add_argument('-l', dest='log_file', type=str, default=default_log_file, help='Log file for SNMP monitoring')
+    parser.add_argument('-of', dest='oid_file', type=str, default=default_oid_file, help='OID file for SNMP monitoring')
     args = parser.parse_args()
 
     snmp_nodes = read_nodes_db(args.file_path)
 
     for ip, (community, custom_oid_file) in snmp_nodes.items():
-        default_oids = read_oids(default_oid_file)
+        default_oids = read_oids(args.oid_file)
         custom_oids = read_oids(custom_oid_file) if custom_oid_file else []
         monitor_device(ip, community, default_oids, custom_oids, args.interval, args.log_file)
 
