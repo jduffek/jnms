@@ -10,7 +10,7 @@ def main():
     # Execute service discovery script
     subprocess.run(["python3", "svc-disco.py"])
 
-    # Execute service discovery script...soon.
+    # Execute SNMP script...soon.
     #subprocess.run(["python3", "snmp.py"])
 
     # Execute service discovery script
