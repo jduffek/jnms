@@ -23,7 +23,7 @@ def main():
     snmp_process = subprocess.Popen(["python3", "snmp.py"])
 
     # Execute service discovery script
-    subprocess.run(["python3", "monitors.py"])
+    subprocess.run(["python3", "moni.py"])
 
     # Wait for the SNMP script to finish before exiting (optional)
     snmp_process.wait()
