@@ -1,4 +1,8 @@
 # host-disco.py
+#
+# auto discovery using nets.txt, and default ranges if file is not found.
+# python3 disc-auto.py        # will scan default/network_ranges and nodes in nodes.db
+# python3 disc-auto.py -new   # this will run a new ICMP discovery and build a new nodes.db if not already there
 # 
 # basic ICMP discovery of the specified network.
 #
@@ -9,6 +13,9 @@
 import subprocess
 import datetime
 from concurrent.futures import ThreadPoolExecutor
+import argparse
+
+DEFAULT_RANGES = ["10.1.1.1-10.1.1.10", "1.0.0.1"]  # Default ranges
 
 def icmp_discovery(network_range):
     discovered_hosts = []
@@ -43,10 +50,8 @@ def ping_host(ip_address, command):
     if process.returncode == 0:
         print(f"{ip_address} is alive")
         return f"{ip_address}:ICMP"
-#    else:
-#        print(f"{ip_address} is unreachable")
 
-def main():
+def new_discovery():
     choice = input("Would you like to input a network range(s)? (yes/file/no): ").lower()
     
     if choice == "yes":
@@ -67,12 +72,43 @@ def main():
             print("File not found.")
             return
     elif choice == "no":
-        network_ranges = ["10.1.1.1-10.1.1.10", "10.1.1.145-10.1.1.148"]  # Default ranges
+        network_ranges = DEFAULT_RANGES  # Default ranges
         discovered_hosts = []
         for network_range in network_ranges:
             discovered_hosts.extend(icmp_discovery(network_range))
     else:
         print("Invalid choice.")
+        return
+
+    return discovered_hosts
+
+def default_discovery():
+    file_name = "nets.txt"
+    try:
+        with open(file_name, 'r') as file:
+            network_ranges = [line.strip() for line in file.readlines()]
+            discovered_hosts = []
+            for network_range in network_ranges:
+                discovered_hosts.extend(icmp_discovery(network_range))
+    except FileNotFoundError:
+        print("nets.txt file not found. Using default ranges.")
+        discovered_hosts = []
+        for network_range in DEFAULT_RANGES:
+            discovered_hosts.extend(icmp_discovery(network_range))
+
+    return discovered_hosts
+
+def main():
+    parser = argparse.ArgumentParser(description="ICMP network discovery")
+    parser.add_argument("-new", action="store_true", help="Enable new discovery")
+    args = parser.parse_args()
+
+    if args.new:
+        discovered_hosts = new_discovery()
+    else:
+        discovered_hosts = default_discovery()
+
+    if not discovered_hosts:
         return
 
     filename = "disco/host-disco_" + datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".txt"
