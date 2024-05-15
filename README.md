@@ -1,6 +1,6 @@
 
 =======<br>
-joshd:jnms-pub joshduffek$ python3 jnms.py<br>
+joshd:jnms-pub joshduffek$ python3 jnms.py -new<br>
 Would you like to input a network range(s)? (yes/file/no): file<br>
 What is the name of the file?: foo.bar<br>
 10.1.1.147 is alive<br>
@@ -34,10 +34,3 @@ Port scanning results:<br>
 2024-05-14 12:35:48 - 1.3.6.1.2.1.25.1.1.0 = 23113012<br>
 2024-05-14 12:35:48 - 1.3.6.1.4.1.2021.4.5.0 = N/A<br>
 2024-05-14 12:35:48 - 1.3.6.1.4.1.2021.4.6.0 = N/A<br>
-10.1.1.12: ICMP Failed <br>
-10.1.1.255: ICMP OK<br>
-10.1.1.147:21 TCP OK<br>
-10.1.1.147:22 TCP OK<br>
-10.1.1.147:80 TCP OK<br>
-1.1.1.1:80 TCP OK<br>
-
